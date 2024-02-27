@@ -2,7 +2,7 @@ import { loadRemoteModule } from '@angular-architects/module-federation';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const MFE_APP_URL = "https://mfe-app-three.vercel.app/";
+const MFE_APP_URL = "https://mfe-app-three.vercel.app/remoteEntry.js";
 
 const routes: Routes = [
   {
