@@ -14,8 +14,9 @@ const routes: Routes = [
     path: 'countermap',
     loadChildren: () => {
       return loadRemoteModule({
+        remoteEntry: "http://localhost:4300/remoteEntry.js",
         type: 'module',
-        remoteName: 'mfe1',
+        //remoteName: 'mfeApp',
         exposedModule: "./CounterModule",
       }).then(m => m.CounterModule).catch(err => console.log(err));
     }
