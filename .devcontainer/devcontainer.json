@@ -1,0 +1,79 @@
+{
+  "name": "ROA/Angular app",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "maven.executable.path": "mvn",
+        "java.configuration.runtimes": [
+          {
+            "name": "JavaSE-11",
+            "path": "/usr/lib/jvm/java-1.11.0-openjdk-amd64",
+            "javadoc": "https://docs.oracle.com/en/java/javase/11/docs/api",
+            "default": true
+          }
+        ],
+        "redhat.telemetry.enabled": false,
+        "java.jdt.ls.java.home": "/usr/lib/jvm/java-1.17.0-openjdk-amd64",
+        "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx1G -Xms100m",
+        "java.configuration.maven.userSettings": "/home/node/.m2/settings.xml",
+        "prettier.trailingComma": "none",
+        "prettier.singleQuote": true,
+        "prettier.printWidth": 140,
+        "prettier.prettierPath": "./front/node_modules/prettier",
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "java.test.report.showAfterExecution": "always",
+        "java.test.report.position": "currentView",
+        "java.debug.settings.hotCodeReplace": "auto",
+        "terminal.integrated.scrollback": 10000,
+        "karmaTestExplorer.enableExtension": true,
+        "karmaTestExplorer.autoWatchEnabled": false,
+        "karmaTestExplorer.logLevel": "trace",
+        "karmaTestExplorer.projectType": "angular",
+        "testExplorer.useNativeTesting": false,
+        "testExplorer.addToEditorContextMenu": true,
+        "sonarlint.ls.javaHome": "/usr/lib/jvm/java-1.17.0-openjdk-amd64",
+        "java.jdt.ls.lombokSupport.enabled": true
+      },
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "Angular.ng-template",
+        "xyz.local-history",
+        "donjayamanne.githistory",
+        "christian-kohler.path-intellisense",
+        "vscjava.vscode-java-pack",
+        "vscode-icons-team.vscode-icons",
+        "alefragnani.project-manager",
+        "esbenp.prettier-vscode",
+        "sonarsource.sonarlint-vscode",
+        "hbenl.vscode-test-explorer",
+        "lucono.karma-test-explorer"        
+      ]
+    }
+  },
+
+  // Local container ports to forward to host
+  "forwardPorts": [4200, 8000, 7001],
+  
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [],
+
+  // Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "node",
+  "mounts": [
+    "source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
+    "source=${localWorkspaceFolderBasename}-bashhistory,target=${containerWorkspaceFolder}/commandhistory,type=volume"
+  ],
+  // Use 'postCreateCommand' to run commands after the container is created.
+  //"postCreateCommand": "sudo chown node node_modules && npm install"
+  "postCreateCommand": "sh -c /home/node/ozsh.sh && sudo chown node node_modules && npm install && chmod -R a+x node_modules && sudo npm i -g @angular/cli",
+
+   // Use 'postCreateCommand' to run commands after the container is started.
+  "postStartCommand": "git config --global diff.tool vscode && git config --global difftool.vscode.cmd 'code --wait --diff $LOCAL $REMOTE' && git config --global core.editor 'code --wait' && git config --global merge.tool vscode && git config --global mergetool.vscode.cmd 'code --wait $MERGED'",
+  "runArgs": [ "--privileged" ]
+}
