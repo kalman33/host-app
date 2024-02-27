@@ -2,7 +2,7 @@ import { loadRemoteModule } from '@angular-architects/module-federation';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const MFE_APP_URL = "http://localhost:4300/remoteEntry.js";
+const MFE_APP_URL = "https://mfe-app-three.vercel.app/";
 
 const routes: Routes = [
   {
@@ -14,7 +14,7 @@ const routes: Routes = [
     path: 'countermap',
     loadChildren: () => {
       return loadRemoteModule({
-        remoteEntry: "http://localhost:4300/remoteEntry.js",
+        remoteEntry: MFE_APP_URL,
         type: 'module',
         //remoteName: 'mfeApp',
         exposedModule: "./CounterModule",
